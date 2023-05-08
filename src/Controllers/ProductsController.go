@@ -14,7 +14,7 @@ import (
 	"strconv"
 )
 
-func BootstrapProductsController(e *echo.Echo, productRepository *Services.ProductRepository) {
+func BootstrapProductsController(e *echo.Echo, productRepository Services.IRepository[Models.Product]) {
 	_ = mediatr.RegisterRequestHandler[*GetProduct.Request, *GetProduct.Response](GetProduct.NewHandler(productRepository))
 	_ = mediatr.RegisterRequestHandler[*GetProducts.Request, *GetProducts.Response](GetProducts.NewHandler(productRepository))
 	_ = mediatr.RegisterRequestHandler[*AddProduct.Request, *AddProduct.Response](AddProduct.NewHandler(productRepository))
@@ -45,7 +45,6 @@ func BootstrapProductsController(e *echo.Echo, productRepository *Services.Produ
 	})
 
 	e.POST("/products", func(c echo.Context) error {
-		//TODO: use bind with some DTO
 		newProduct := Models.NewProductBinding{}
 		err := c.Bind(&newProduct)
 		if err != nil {

@@ -47,7 +47,7 @@ import (
 //]
 //}
 
-type ProductRepository struct {
+type InMemoryProductRepository struct {
 }
 
 var products = []Models.Product{
@@ -80,15 +80,15 @@ var products = []Models.Product{
 	},
 }
 
-func NewProductRepository() *ProductRepository {
-	return &ProductRepository{}
+func NewInMemoryRepository() IRepository[Models.Product] {
+	return &InMemoryProductRepository{}
 }
 
-func (repo *ProductRepository) GetAllProducts() []Models.Product {
+func (repo *InMemoryProductRepository) GetAll() []Models.Product {
 	return products
 }
 
-func (repo *ProductRepository) GetProductById(id uint) Models.Product {
+func (repo *InMemoryProductRepository) GetById(id uint) Models.Product {
 	for _, product := range products {
 		if product.ID == id {
 			return product
@@ -97,15 +97,15 @@ func (repo *ProductRepository) GetProductById(id uint) Models.Product {
 	panic("No product with given Id found.")
 }
 
-func (repo *ProductRepository) GetProductsWithFilter() {
-
+func (repo *InMemoryProductRepository) GetWithFilter() []Models.Product {
+	panic("Not implemented.")
 }
 
-func (repo *ProductRepository) AddProduct(id uint, name string) Models.Product {
+func (repo *InMemoryProductRepository) Add(product Models.Product) Models.Product {
 	newProduct := Models.Product{
-		Name: name,
+		Name: product.Name,
 		Model: gorm.Model{
-			ID:        id,
+			ID:        product.ID,
 			CreatedAt: time.Now(),
 			UpdatedAt: time.Now(),
 			DeletedAt: gorm.DeletedAt{},
@@ -115,7 +115,7 @@ func (repo *ProductRepository) AddProduct(id uint, name string) Models.Product {
 	return newProduct
 }
 
-func (repo *ProductRepository) DeleteProduct(id uint) Models.Product {
+func (repo *InMemoryProductRepository) Delete(id uint) Models.Product {
 	var indexToDelete int
 	var productFound = false
 	var productToDelete Models.Product
@@ -133,11 +133,11 @@ func (repo *ProductRepository) DeleteProduct(id uint) Models.Product {
 	return productToDelete
 }
 
-func (repo *ProductRepository) PatchProduct(id uint, productPatch Models.PatchProductBinding) Models.Product {
-	productToPatch := repo.DeleteProduct(id)
+func (repo *InMemoryProductRepository) Patch(id uint, productPatch any) Models.Product {
+	productToPatch := repo.Delete(id)
 	productToPatch.Model.UpdatedAt = time.Now()
-	if productPatch.Name != "" {
-		productToPatch.Name = productPatch.Name
+	if productPatch.(Models.Product).Name != "" {
+		productToPatch.Name = productPatch.(Models.Product).Name
 	}
 	products = append(products, productToPatch)
 	return productToPatch
