@@ -4,14 +4,16 @@ import (
 	"4_zad/Controllers"
 	"4_zad/Services"
 	"github.com/labstack/echo/v4"
+	"gorm.io/driver/sqlite"
+	"gorm.io/gorm"
 )
 
 func main() {
 	e := echo.New()
-	//db, dbError := gorm.Open(sqlite.Open("sqlite.db"), &gorm.Config{})
-	//if dbError != nil {
-	//	panic(dbError)
-	//}
+	db, dbError := gorm.Open(sqlite.Open("sqlite.db"), &gorm.Config{})
+	if dbError != nil {
+		panic(dbError)
+	}
 	//product := Models.Product{
 	//	Name: "pig",
 	//}
@@ -26,8 +28,8 @@ func main() {
 	//
 	//}
 
-	repository := Services.NewInMemoryRepository() //LEGACY: used as an initial data storage mock
-	//repository := Services.NewSqliteProductRepository(db)
+	//repository := Services.NewInMemoryRepository() //LEGACY: used as an initial data storage mock
+	repository := Services.NewSqliteProductRepository(db)
 
 	Controllers.BootstrapProductsController(e, repository)
 
