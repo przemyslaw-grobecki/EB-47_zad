@@ -51,7 +51,7 @@ func BootstrapProductsController(e *echo.Echo, productRepository Services.IRepos
 			return c.String(http.StatusBadRequest, "Error during binding.")
 		}
 
-		request := AddProduct.NewRequest(newProduct.Id, newProduct.Name)
+		request := AddProduct.NewRequest(newProduct.Id, newProduct.Name, newProduct.Category, newProduct.Price, newProduct.Quantity, newProduct.ImageURL)
 
 		response, err := mediatr.Send[*AddProduct.Request, *AddProduct.Response](c.Request().Context(), request)
 		if err != nil {

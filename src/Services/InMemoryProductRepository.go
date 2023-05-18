@@ -115,6 +115,21 @@ func (repo *InMemoryProductRepository) Add(product Models.Product) Models.Produc
 	return newProduct
 }
 
+func (repo *InMemoryProductRepository) Update(product Models.Product) Models.Product {
+	//Mock implementation - will maybe implement someday
+	newProduct := Models.Product{
+		Name: product.Name,
+		Model: gorm.Model{
+			ID:        product.ID,
+			CreatedAt: time.Now(),
+			UpdatedAt: time.Now(),
+			DeletedAt: gorm.DeletedAt{},
+		},
+	}
+	products = append(products, newProduct)
+	return newProduct
+}
+
 func (repo *InMemoryProductRepository) Delete(id uint) Models.Product {
 	var indexToDelete int
 	var productFound = false

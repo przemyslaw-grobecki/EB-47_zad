@@ -6,7 +6,7 @@ type Product struct {
 	gorm.Model
 	Name     string
 	Category string
-	Price    uint
+	Price    float64
 	Quantity uint
 	ImageURL string
 }

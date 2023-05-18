@@ -7,4 +7,5 @@ type IRepository[Entity any] interface {
 	Add(Entity) Entity
 	Delete(uint) Entity
 	Patch(uint, any) Entity
+	Update(Entity) Entity
 }

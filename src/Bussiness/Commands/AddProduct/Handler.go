@@ -16,5 +16,10 @@ func NewHandler(productRepository Services.IRepository[Models.Product]) *Handler
 }
 
 func (g Handler) Handle(ctx context.Context, request *Request) (*Response, error) {
-	return NewResponse(g.productRepository.Add(Models.Product{Name: request.Name, Model: gorm.Model{ID: request.Id}})), nil //TODO: instead of nil, should probably return true error
+	return NewResponse(g.productRepository.Add(Models.Product{Name: request.Name,
+		Category: request.Category,
+		Price:    request.Price,
+		Quantity: request.Quantity,
+		ImageURL: request.ImageURL,
+		Model:    gorm.Model{ID: request.Id}})), nil //TODO: instead of nil, should probably return true error
 }

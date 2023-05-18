@@ -36,7 +36,14 @@ func (repo *SqliteProductRepository) GetWithFilter() []Models.Product {
 }
 
 func (repo *SqliteProductRepository) Add(product Models.Product) Models.Product {
-	repo.db.Create(&product)
+	var productToCreate Models.Product
+	productToCreate = product
+	repo.db.Create(&productToCreate)
+	return product
+}
+
+func (repo *SqliteProductRepository) Update(product Models.Product) Models.Product {
+	repo.db.Save(&product)
 	return product
 }
 
