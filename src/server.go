@@ -16,26 +16,15 @@ func main() {
 	if dbError != nil {
 		panic(dbError)
 	}
-	//product := Models.Product{
-	//	Name: "pig",
-	//}
-	//result := db.Create(&product)
-	//if result != nil {
-	//
-	//}
-	//
-	//foundProd := db.Find(&product)
-	//
-	//if foundProd != nil {
-	//
-	//}
 
 	//repository := Services.NewInMemoryRepository() //LEGACY: used as an initial data storage mock
 	productRepository := Services.NewSqliteProductRepository(db)
 	basketRepository := Services.NewSqliteBasketRepository(db)
+	userRepository := Services.NewSqliteUserRepository(db)
 
 	Controllers.BootstrapProductsController(e, productRepository)
 	Controllers.BootstrapBasketsController(e, basketRepository, productRepository)
+	Controllers.BootstrapUsersController(e, userRepository)
 
 	e.Logger.Fatal(e.Start(":1323"))
 }
