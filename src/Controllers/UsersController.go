@@ -38,8 +38,8 @@ func BootstrapUsersController(e *echo.Echo, userRepository Services.IRepository[
 			return c.String(http.StatusBadRequest, "Error during binding.")
 		}
 
-		request := RegisterUser.NewRequest(user.Email, user.Password)
-		response, err := mediatr.Send[*RegisterUser.Request, *RegisterUser.Response](c.Request().Context(), request)
+		request := LoginUser.NewRequest(user.Email, user.Password)
+		response, err := mediatr.Send[*LoginUser.Request, *LoginUser.Response](c.Request().Context(), request)
 		if err != nil {
 			return err
 		}
