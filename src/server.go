@@ -17,7 +17,7 @@ func main() {
 		panic(dbError)
 	}
 
-	//repository := Services.NewInMemoryRepository() //LEGACY: used as an initial data storage mock
+	//repository := Services.NewInMemoryRepository() //LEGACY: used as an initial data storage mock (fastest legacy ever)
 	productRepository := Services.NewSqliteProductRepository(db)
 	basketRepository := Services.NewSqliteBasketRepository(db)
 	userRepository := Services.NewSqliteUserRepository(db)
